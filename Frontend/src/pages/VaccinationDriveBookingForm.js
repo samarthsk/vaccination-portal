@@ -66,6 +66,7 @@ const VaccinationDriveBookingForm = () => {
           <label>Available Doses:</label>
           <input type="number" name="vaccinesAvailable" value={formData.vaccinesAvailable} onChange={handleChange} required className="form-control"/>
         </div>
+        <br />
         <button type="submit" className="btn btn-primary">{editingId ? "Update Drive" : "Book Drive"}</button>
       </form>
 
