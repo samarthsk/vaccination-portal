@@ -10,13 +10,11 @@ const VaccinationReport = () => {
 
   const fetchData = async (name) => {
     try {
-      // Construct the query string correctly
       const queryParam = name
         ? `?vaccineName=${name}&page=${page}&size=${size}`
         : `?page=${page}&size=${size}`;
         
       const response = await axios.get(`http://localhost:8080/api/reports/filtered${queryParam}`);
-      // If the response contains a 'content' property (in case of pagination)
       setReports(response.data.content || response.data); 
     } catch (error) {
       console.error("Error fetching vaccination reports", error);
@@ -29,7 +27,7 @@ const VaccinationReport = () => {
 
   const handleSearch = () => {
     setSearchVaccineName(vaccineName);
-    setPage(0); // Reset to first page on new search
+    setPage(0);
   };
 
   const downloadReport = async (format) => {

@@ -7,7 +7,6 @@ const Dashboard = () => {
   const [error, setError] = useState("");
 
   const fetchDashboardData = () => {
-    // Fetch data for dashboard overview
     axios
       .get("http://localhost:8080/api/dashboard/data")
       .then((response) => {
@@ -18,11 +17,10 @@ const Dashboard = () => {
         console.error("Error fetching dashboard: ", error);
       });
 
-    // Fetch upcoming vaccination drive bookings
     axios
       .get("http://localhost:8080/api/drive-bookings")
       .then((response) => {
-        setUpcomingDrives(response.data); // Store drive bookings
+        setUpcomingDrives(response.data);
       })
       .catch((error) => {
         setError("Error loading upcoming vaccination drives.");

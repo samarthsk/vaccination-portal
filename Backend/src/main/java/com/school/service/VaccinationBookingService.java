@@ -27,7 +27,6 @@ public class VaccinationBookingService {
 		VaccinationBooking existing = repository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Drive not found"));
 
-		// Disallow edits for past drives
 		if (existing.getDate().isBefore(LocalDate.now())) {
 			throw new RuntimeException("Cannot edit completed drive.");
 		}
