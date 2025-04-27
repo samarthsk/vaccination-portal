@@ -7,11 +7,20 @@ const UpdateStatus = () => {
   const [statusEditable, setStatusEditable] = useState(false);
   const [message, setMessage] = useState("");
 
+  const username = 'admin';
+  const password = 'admin123';
+
   const handleSearch = async () => {
     setMessage("");
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/students/find?studentId=${studentId}`
+        `http://localhost:8080/api/students/find?studentId=${studentId}`,
+        {
+          auth: { 
+            username,
+            password, 
+          }
+        }
       );
       setVaccinated(response.data.vaccinated);
       setStatusEditable(true);
@@ -30,6 +39,10 @@ const UpdateStatus = () => {
           studentId: studentId,
           vaccinated: vaccinated,
         },
+        auth: { 
+          username,
+          password, 
+        }
       });
       setMessage("Vaccination status updated successfully.");
     } catch (error) {

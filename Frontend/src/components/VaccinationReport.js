@@ -8,13 +8,21 @@ const VaccinationReport = () => {
   const [size, setSize] = useState(10);
   const [searchVaccineName, setSearchVaccineName] = useState("");
 
+  const username = 'admin';
+  const password = 'admin123';
+
   const fetchData = async (name) => {
     try {
       const queryParam = name
         ? `?vaccineName=${name}&page=${page}&size=${size}`
         : `?page=${page}&size=${size}`;
         
-      const response = await axios.get(`http://localhost:8080/api/reports/filtered${queryParam}`);
+      const response = await axios.get(`http://localhost:8080/api/reports/filtered${queryParam}`, {
+        auth: { 
+          username,
+          password, 
+        }
+      });
       setReports(response.data.content || response.data); 
     } catch (error) {
       console.error("Error fetching vaccination reports", error);
@@ -35,7 +43,13 @@ const VaccinationReport = () => {
       const queryParam = searchVaccineName ? `?vaccineName=${searchVaccineName}` : "";
       const response = await axios.get(
         `http://localhost:8080/api/reports/export/${format}${queryParam}`,
-        { responseType: "blob" }
+        {
+          responseType: "blob",
+          auth: { 
+            username,
+            password, 
+          }
+        }
       );
 
       const blob = new Blob([response.data], { type: response.headers["content-type"] });

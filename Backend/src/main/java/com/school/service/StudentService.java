@@ -1,8 +1,8 @@
 package com.school.service;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class StudentService {
 	}
 
 	public void bulkUploadStudents(MultipartFile file) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader(file.getOriginalFilename()));
+		BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
 		String line;
 		while ((line = br.readLine()) != null) {
 			String[] data = line.split(",");

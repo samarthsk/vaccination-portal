@@ -10,11 +10,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable().authorizeHttpRequests().anyRequest().permitAll();
-
+		http.cors().and().csrf().disable().authorizeHttpRequests().anyRequest().authenticated().and().httpBasic();
 		return http.build();
 	}
 }

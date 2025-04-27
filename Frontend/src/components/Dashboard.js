@@ -6,9 +6,17 @@ const Dashboard = () => {
   const [upcomingDrives, setUpcomingDrives] = useState([]);
   const [error, setError] = useState("");
 
+  const username = 'admin';
+  const password = 'admin123';
+
   const fetchDashboardData = () => {
     axios
-      .get("http://localhost:8080/api/dashboard/data")
+      .get("http://localhost:8080/api/dashboard/data", {
+        auth: {
+          username,
+          password,
+        }
+      })
       .then((response) => {
         setDashboardData(response.data);
       })
@@ -18,7 +26,12 @@ const Dashboard = () => {
       });
 
     axios
-      .get("http://localhost:8080/api/drive-bookings")
+      .get("http://localhost:8080/api/drive-bookings", {
+        auth: {
+          username,
+          password,
+        }
+      })
       .then((response) => {
         setUpcomingDrives(response.data);
       })

@@ -13,6 +13,9 @@ const Students = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [file, setFile] = useState(null);
 
+  const username = 'admin';
+  const password = 'admin123';
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setStudent((prev) => ({
@@ -30,7 +33,12 @@ const Students = () => {
 
   const handleSearch = () => {
     axios
-      .get(`http://localhost:8080/api/students/find?studentId=${searchId}`)
+      .get(`http://localhost:8080/api/students/find?studentId=${searchId}`, {
+        auth: {
+          username,
+          password,
+        }
+      })
       .then((response) => {
         setStudent(response.data);
         setIsEditMode(true);
@@ -44,7 +52,12 @@ const Students = () => {
     e.preventDefault();
     if (isEditMode) {
       axios
-        .put("http://localhost:8080/api/students/update-details", student)
+        .put("http://localhost:8080/api/students/update-details", student, {
+          auth: {
+            username,
+            password,
+          }
+        })
         .then(() => {
           alert("Student updated successfully");
           setIsEditMode(false);
@@ -56,7 +69,12 @@ const Students = () => {
         });
     } else {
       axios
-        .post("http://localhost:8080/api/students", student)
+        .post("http://localhost:8080/api/students", student, {
+          auth: {
+            username,
+            password,
+          }
+        })
         .then(() => {
           alert("Student added successfully");
           setStudent({ name: "", studentId: "", studentClass: "", vaccinated: false });
@@ -73,7 +91,13 @@ const Students = () => {
     formData.append("file", file);
 
     axios
-      .post("http://localhost:8080/api/students/bulk-upload", formData)
+      .post("http://localhost:8080/api/students/bulk-upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        auth: {
+          username,
+          password,
+        }
+      })
       .then(() => {
         alert("Students uploaded successfully");
       })
