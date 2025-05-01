@@ -28,7 +28,6 @@ This repository contains the complete source code for the School Vaccination Por
 	1. Navigate to the frontend directory:
  
 		1. cd frontend
-		2. Install dependencies:
-		3. npm install
+		2. Install dependencies: npm install
 		4. Start the development server: npm start
 		5. Open in browser: http://localhost:3000
