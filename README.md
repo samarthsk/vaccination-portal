@@ -14,8 +14,8 @@ This repository contains the complete source code for the School Vaccination Por
 	2. Update your application.properties:
 
 		spring.datasource.url=jdbc:mysql://localhost:3306/vaccination_portal
-		spring.datasource.username=root
-		spring.datasource.password=your_password
+		spring.datasource.username={username}
+		spring.datasource.password={password}
 		springdoc.api-docs.path=/api-docs
 	
  3. Run the application:
