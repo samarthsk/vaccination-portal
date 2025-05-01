@@ -60,19 +60,17 @@ public class VaccinationReportController {
 		String fileName = "vaccination_report.csv";
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
 
-		List<VaccinationRecord> records;
-		if (vaccineName != null && !vaccineName.isEmpty()) {
-			records = reportService.getRecordsByVaccineName(vaccineName);
-		} else {
-			records = reportService.getAllRecords();
-		}
+		List<VaccinationRecord> records = (vaccineName != null && !vaccineName.isEmpty())
+				? reportService.getRecordsByVaccineName(vaccineName)
+				: reportService.getAllRecords();
 
 		PrintWriter writer = response.getWriter();
-		writer.println("ID,Student Name,Vaccine Name,Date,Administered By");
+		writer.println("ID,Student Name,Vaccination Status,Vaccine Name,Vaccination Date");
 
 		for (VaccinationRecord record : records) {
-			writer.printf("%d,%s,%s,%s,%s\n", record.getId(), record.getStudentName(), record.getVaccineName(),
-					record.getVaccinationDate(), record.getAdministeredBy());
+			writer.printf("%d,%s,%s,%s,%s\n", record.getId(), record.getStudentName(),
+					record.getVaccinated() ? "Vaccinated" : "Not Vaccinated", record.getVaccineName(),
+					record.getVaccinationDate());
 		}
 		writer.flush();
 	}
@@ -91,9 +89,8 @@ public class VaccinationReportController {
 		Workbook workbook = new XSSFWorkbook();
 		Sheet sheet = workbook.createSheet("Vaccinations");
 
+		String[] columns = { "ID", "Student Name", "Vaccination Status", "Vaccine Name", "Vaccination Date" };
 		Row header = sheet.createRow(0);
-		String[] columns = { "ID", "Student Name", "Vaccine Name", "Vaccination Date", "Administered By" };
-
 		for (int i = 0; i < columns.length; i++) {
 			header.createCell(i).setCellValue(columns[i]);
 		}
@@ -103,9 +100,9 @@ public class VaccinationReportController {
 			Row row = sheet.createRow(rowNum++);
 			row.createCell(0).setCellValue(record.getId());
 			row.createCell(1).setCellValue(record.getStudentName());
-			row.createCell(2).setCellValue(record.getVaccineName());
-			row.createCell(3).setCellValue(record.getVaccinationDate().toString());
-			row.createCell(4).setCellValue(record.getAdministeredBy());
+			row.createCell(2).setCellValue(record.getVaccinated() ? "Vaccinated" : "Not Vaccinated");
+			row.createCell(3).setCellValue(record.getVaccineName());
+			row.createCell(4).setCellValue(record.getVaccinationDate().toString());
 		}
 
 		workbook.write(response.getOutputStream());
@@ -135,18 +132,17 @@ public class VaccinationReportController {
 
 		PdfPTable table = new PdfPTable(5);
 		table.setWidthPercentage(100);
-		Stream.of("ID", "Student Name", "Vaccine Name", "Date", "Administered By").forEach(header -> {
-			PdfPCell cell = new PdfPCell();
-			cell.setPhrase(new Phrase(header));
+		Stream.of("ID", "Student Name", "Vaccination Status", "Vaccine Name", "Vaccination Date").forEach(header -> {
+			PdfPCell cell = new PdfPCell(new Phrase(header));
 			table.addCell(cell);
 		});
 
 		for (VaccinationRecord record : records) {
 			table.addCell(record.getId().toString());
 			table.addCell(record.getStudentName());
+			table.addCell(record.getVaccinated() ? "Vaccinated" : "Not Vaccinated");
 			table.addCell(record.getVaccineName());
 			table.addCell(record.getVaccinationDate().toString());
-			table.addCell(record.getAdministeredBy());
 		}
 
 		document.add(table);

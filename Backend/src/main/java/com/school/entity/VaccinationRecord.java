@@ -27,18 +27,17 @@ public class VaccinationRecord {
 	@Column(name = "vaccination_date")
 	private Date vaccinationDate;
 
-	@Column(name = "administered_by")
-	private String administeredBy;
+	@Column(name = "vaccinated")
+	private Boolean vaccinated;
 
 	public VaccinationRecord() {
-
 	}
 
-	public VaccinationRecord(String studentName, String vaccineName, Date vaccinationDate, String administeredBy) {
+	public VaccinationRecord(String studentName, String vaccineName, Date vaccinationDate, Boolean vaccinated) {
 		this.studentName = studentName;
 		this.vaccineName = vaccineName;
 		this.vaccinationDate = vaccinationDate;
-		this.administeredBy = administeredBy;
+		this.vaccinated = vaccinated;
 	}
 
 	public Long getId() {
@@ -73,18 +72,17 @@ public class VaccinationRecord {
 		this.vaccinationDate = vaccinationDate;
 	}
 
-	public String getAdministeredBy() {
-		return administeredBy;
+	public Boolean getVaccinated() {
+		return vaccinated;
 	}
 
-	public void setAdministeredBy(String administeredBy) {
-		this.administeredBy = administeredBy;
+	public void setVaccinated(Boolean vaccinated) {
+		this.vaccinated = vaccinated;
 	}
 
 	@Override
 	public String toString() {
 		return "VaccinationRecord [id=" + id + ", studentName=" + studentName + ", vaccineName=" + vaccineName
-				+ ", vaccinationDate=" + vaccinationDate + ", administeredBy=" + administeredBy + "]";
+				+ ", vaccinationDate=" + vaccinationDate + ", vaccinated=" + vaccinated + "]";
 	}
-
 }

@@ -24,8 +24,15 @@ public class StudentService {
 	public void bulkUploadStudents(MultipartFile file) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
 		String line;
+		boolean isFirstLine = true;
 		while ((line = br.readLine()) != null) {
+			if (isFirstLine) {
+				isFirstLine = false;
+				continue;
+			}
 			String[] data = line.split(",");
+			if (data.length < 4)
+				continue;
 			Student student = new Student(data[0], data[1], data[2], Boolean.parseBoolean(data[3]));
 			studentRepository.save(student);
 		}

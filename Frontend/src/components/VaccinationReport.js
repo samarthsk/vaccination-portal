@@ -87,26 +87,28 @@ const VaccinationReport = () => {
           <tr>
             <th>ID</th>
             <th>Student Name</th>
+            <th>Vaccination Status</th>
             <th>Vaccine Name</th>
-            <th>Administered By</th>
+            <th>Vaccination Date</th>
           </tr>
         </thead>
-        <tbody>
-          {reports && reports.length > 0 ? (
-            reports.map((report) => (
-              <tr key={report.id}>
-                <td>{report.id}</td>
-                <td>{report.studentName}</td>
-                <td>{report.vaccineName}</td>
-                <td>{report.administeredBy}</td>
+          <tbody>
+            {reports && reports.length > 0 ? (
+              reports.map((report) => (
+                <tr key={report.id}>
+                  <td>{report.id}</td>
+                  <td>{report.studentName}</td>
+                  <td>{report.vaccinated ? "Vaccinated" : "Not Vaccinated"}</td>
+                  <td>{report.vaccineName}</td>
+                  <td>{report.vaccinationDate}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5">No reports available</td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4">No reports available</td>
-            </tr>
-          )}
-        </tbody>
+            )}
+          </tbody>
       </table>
 
       <div>
